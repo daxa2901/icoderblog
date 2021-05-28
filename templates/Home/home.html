@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %} Home{% endblock title %} 
+{% block js %}
+
+python manage.
+<script>
+
+previews = document.getElementsByClassName('preview');
+Array.from(previews).forEach((element)=>{
+  element.innerHTML = element.innerText;
+})
+</script>
+
+{% endblock js %}
+
+ {% block homeactive %} active {% endblock homeactive %}
+{% block body %}
+<div>
+<div class='container h-75 w-50 my-4'>
+<div class="jumbotron bg-light">
+  <h1 class="display-3 py-3 px-5">Welcome To Icoder</h1>
+  <p class="lead ">You will find much more information about Programming Language from this blog. </p>
+  <hr class="my-4">
+  <h3 class="text-center">         Read The Blog and explore Yourself.</h3>
+  <div class=' text-center'><a class=" text-center btn btn-dark btn-larg mx-auto bg-secondary mb-3 " href="/blog" role="button">Go To Blog</a></div>
+</div>
+</div>
+
+<div class='container  w-50 my-4'>
+
+    <h2 class='mx-10 text-center'> See Our Popular BlogPost</h2>
+    {% for hpost in  homePost%}
+      <div class="col-md-6 w-100">
+      <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary"> Article by {{hpost.auther}}  ({{hpost.views}} Views)</strong>
+          <h3 class="mb-0"><a class='text-dark' href="/blog/{{hpost.slug}}">{{hpost.title}}</a></h3>
+          <div class="mb-1 text-muted">{{hpost.timeStamp}}</div>
+          <p class="card-text mb-auto"><div class='preview'>{{hpost.content|safe | truncatechars:300}}</div></p>
+          <div class='my-2'>
+          <a href="/blog/{{hpost.slug}}" role="button" class="btn btn-primary w-5">Continue reading</a>
+        </div>
+        </div>
+         </div>
+    </div>
+
+    {% endfor %}
+    
+    
+</div>
+</div>
+{% endblock body %}
+

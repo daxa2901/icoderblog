@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %} Blog Home{% endblock title %}
+
+{% block js %}
+<script>
+
+  previews = document.getElementsByClassName('preview');
+  Array.from(previews).forEach((element) => {
+    element.innerHTML = element.innerText;
+  })
+</script>
+
+{% endblock js %}
+
+{% block blogactive %} active {% endblock blogactive %}
+{% block body %}
+<div class='container  w-50 my-4'>
+
+  <h2> Coding Articles By Icoder:</h2>
+
+  {% for post in allPost %}
+
+  <div class="col-md-6 w-100">
+    <div class="row no-gutters border rounded overflow-hidden bg-light flex-md-row mb-4 shadow-sm h-md-4350 position-relative">
+      <div class="col p-4 d-flex flex-column position-static">
+        <strong class="d-inline-block mb-2 text-primary"> Article by {{post.auther}} ({{post.views}} Views)</strong>
+        <h3 class="mb-0"><a class='text-dark' href="/blog/{{post.slug}}">{{post.title}}</a></h3>
+        <div class="mb-1 text-muted">{{post.timeStamp}}</div>
+        <p class="card-text mb-auto">
+        <div class='preview'>{{post.content|safe | truncatechars:360}}</div>
+        </p>
+        <div class='my-2'>
+          {% if user.is_anonymous%}
+          <form action='/blog/' method='POST'>
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary w-5">Continue Reading</button>
+          </form>
+
+          {% else %}
+          <a href="/blog/{{post.slug}}" role="button" class="btn btn-primary w-5">Continue Reading</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+</div>
+  <div class='text-center'>
+  <span>
+    {% if allPost.has_previous %}
+      <a href="?page={{allPost.previous_page_number}}"> Previous </a>
+    {% endif %}
+
+    <span>{{ allPost.number }} of {{allPost.paginator.num_pages}}</span>
+
+    {% if allPost.has_next %}
+      <a href="?page={{allPost.next_page_number}}"> Next </a>
+    {% endif %}
+
+  </span>
+
+  </div>
+{% endblock body %}
